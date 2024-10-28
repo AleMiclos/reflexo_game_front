@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo de Reflexo</title>
+    <style>
+        body {
+            background-color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            color: #0f0;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            transition: background-color 0.5s;
+        }
+
+        .game-container {
+            display: flex;
+            transition: opacity 0.5s;
+        }
+
+        .container {
+            position: relative;
+            width: 70vw;
+            height: 90vh;
+            border: 2px solid #0f0;
+            overflow: hidden;
+            margin-right: 20px;
+            border-radius: 10px;
+        }
+
+        .square {
+            width: 50px;
+            height: 50px;
+            background-color: #0f0;
+            box-shadow: 0 0 10px #0f0, 0 0 20px #0f0;
+            position: absolute;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            border-radius: 5px;
+        }
+
+        .square:hover {
+            transform: scale(1.1);
+        }
+
+        .scoreboard,
+        .timer {
+            position: absolute;
+            top: 10px;
+            font-size: 24px;
+            color: #0f0;
+            transition: transform 0.2s;
+        }
+
+        .scoreboard {
+            right: 10px;
+        }
+
+        .timer {
+            left: 10px;
+        }
+
+        .sidebar {
+            width: 20vw;
+            display: flex;
+            flex-direction: column;
+            color: #0f0;
+            font-size: 16px;
+        }
+
+        .results {
+            overflow-y: auto;
+            border: 1px solid #0f0;
+            padding: 10px;
+            height: 80vh;
+            border-radius: 10px;
+        }
+
+        /* Animação do título */
+        .title {
+            font-size: 3em;
+            color: #0f0;
+            text-shadow: 0 0 20px rgba(0, 255, 0, 1);
+            animation: glow 1.5s ease-in-out infinite alternate;
+            margin-bottom: 20px;
+        }
+
+        @keyframes glow {
+            0% {
+                text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+            }
+
+            100% {
+                text-shadow: 0 0 20px rgba(0, 255, 0, 1);
+            }
+        }
+
+        /* Instruções */
+        .instructions {
+            margin: 20px 0;
+            font-size: 1.2em;
+            color: #0f0;
+            text-align: center;
+            max-width: 600px;
+        }
+
+        /* Resultados da tela inicial */
+        .initial-results {
+            border: 1px solid #0f0;
+            padding: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+            color: #0f0;
+            border-radius: 10px;
+        }
+
+        /* Estilização do botão */
+        button {
+            background-color: #0f0;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #66ff66;
+            transform: scale(1.05);
+        }
+
+        /* Barra de Progresso */
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background-color: #444;
+            border-radius: 10px;
+            overflow: hidden;
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+        }
+
+        .progress {
+            height: 100%;
+            background-color: #0f0;
+            transition: width 1s linear;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="startScreen">
+        <h1 class="title">Jogo de Reflexo</h1>
+        <p class="instructions">Teste seus reflexos clicando no quadrado que aparecerá em posições aleatórias na tela o
+            mais rápido possível. Cada clique aumenta sua pontuação!</p>
+        <label for="username">Digite seu nome para começar:</label>
+        <input type="text" id="username" required>
+        <button onclick="startGame()">Começar</button>
+        <h3>Top 10</h3>
+        <div class="initial-results" id="initialResults"></div>
+    </div>
+
+    <div class="game-container" id="gameScreen" style="display: none;">
+        <div class="container">
+            <div class="scoreboard">Pontuação: <span id="score">0</span></div>
+            <div class="timer">Tempo: <span id="timer">15</span>s</div>
+            <div class="square" id="square"></div>
+            <div class="progress-bar">
+                <div class="progress" id="progress" style="width: 100%;"></div>
+            </div>
+        </div>
+        <div class="sidebar">
+            <h3>Top 10</h3>
+            <div class="results" id="results"></div>
+        </div>
+    </div>
+
+    <script>
+        let score = 0;
+        let username;
+        let timerId;
+        const scoreDisplay = document.getElementById('score');
+        const square = document.getElementById('square');
+        const resultsContainer = document.getElementById('results');
+        const initialResultsContainer = document.getElementById('initialResults');
+        const timerDisplay = document.getElementById('timer');
+        const progress = document.getElementById('progress');
+
+        // Inicia o jogo e exibe o nome do usuário
+        function startGame() {
+            username = document.getElementById('username').value;
+            if (username) {
+                document.getElementById('startScreen').style.display = 'none';
+                document.getElementById('gameScreen').style.display = 'flex';
+                generateRandomPosition();
+                startTimer();
+                fetchResults();  // Puxa os resultados existentes do MongoDB
+            } else {
+                alert('Por favor, insira seu nome!');
+            }
+        }
+
+        // Gera posição aleatória do quadrado
+        function generateRandomPosition() {
+            const container = document.querySelector('.container');
+            const x = Math.floor(Math.random() * (container.clientWidth - 50));
+            const y = Math.floor(Math.random() * (container.clientHeight - 50));
+            square.style.left = `${x}px`;
+            square.style.top = `${y}px`;
+        }
+
+        // Atualiza a pontuação
+        function handleSquareClick() {
+            score++;
+            scoreDisplay.textContent = score;
+            generateRandomPosition();
+        }
+
+        square.addEventListener('click', handleSquareClick);
+
+        // Inicia o timer
+        function startTimer() {
+            let timeLeft = 15;
+            timerDisplay.textContent = timeLeft;
+            progress.style.width = '100%'; // Reseta a barra de progresso
+
+            timerId = setInterval(() => {
+                timeLeft--;
+                timerDisplay.textContent = timeLeft;
+                progress.style.width = `${(timeLeft / 15) * 100}%`; // Atualiza a barra de progresso
+
+                if (timeLeft <= 0) {
+                    clearInterval(timerId);
+                    endGame();
+                }
+            }, 1000);
+        }
+
+        async function saveResult() {
+            if (!username) return;
+
+            try {
+                const response = await fetch('https://reflexo-game.onrender.com/api/results', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, score })
+                }); if (response.ok) {
+                    fetchResults();
+                }
+            } catch (error) { console.error('Erro ao salvar o resultado:', error); }
+        }
+        // Puxa os resultados do MongoDB
+        async function fetchResults() {
+            try {
+                const response = await fetch('https://reflexo-game.onrender.com/api/results');
+                const results = await response.json();
+                resultsContainer.innerHTML = results.map(result =>
+                    `<p>${result.username}: ${result.score}</p>`
+                ).join('');
+                initialResultsContainer.innerHTML = results.map(result =>
+                    `<p>${result.username}: ${result.score}</p>`
+                ).join('');
+            } catch (error) {
+                console.error('Erro ao carregar os resultados:', error);
+            }
+        }
+
+        // Finaliza o jogo
+        function endGame() {
+            alert(`Tempo esgotado! Sua pontuação final é ${score}.`);
+            saveResult();  // Salva o resultado ao final do jogo
+            document.getElementById('gameScreen').style.display = 'none';
+            document.getElementById('startScreen').style.display = 'block';
+            score = 0;  // Reseta a pontuação
+            scoreDisplay.textContent = score;  // Atualiza a exibição da pontuação
+            timerDisplay.textContent = 15;  // Reseta o timer
+            progress.style.width = '100%'; // Reseta a barra de progresso
+        }
+
+        // Salva o resultado quando o usuário sair da página
+        window.onbeforeunload = saveResult;
+
+        // Carrega os resultados ao abrir a página inicial
+        window.onload = fetchResults;
+    </script>
+</body>
+
+</html> 
