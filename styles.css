@@ -1,4 +1,4 @@
-ody {
+    body {
             background-color: #050505;
             display: flex;
             align-items: center;
@@ -298,6 +298,8 @@ ody {
         #ratingStars {
             display: flex;
             gap: 15px;
+            text-align: center;
+            justify-content: center;
         }
 
         .star {
@@ -305,6 +307,7 @@ ody {
             color: #333; /* Cor da estrela vazia */
             cursor: pointer;
             transition: all 0.2s ease;
+           
         }
         
         /* Estilo da estrela quando o mouse passa por cima */
