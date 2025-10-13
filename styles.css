@@ -1,0 +1,199 @@
+
+        /* Melhoria 1: Fundo mais escuro com sutil textura de ruído (via box-shadow) */
+        body {
+            background-color: #050505;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            /* Melhoria 2: Fonte monoespaçada para tema hacker/terminal */
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            transition: background-color 0.5s;
+            /* Sutil ruído/textura no fundo */
+            box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.5);
+        }
+
+        .game-container {
+            display: flex;
+            transition: opacity 0.5s;
+        }
+
+        /* Melhoria 3: Contêiner do jogo mais robusto com bordas mais neon */
+        .container {
+            position: relative;
+            width: 70vw;
+            height: 90vh;
+            border: 2px solid #0f0;
+            box-shadow: 0 0 15px #0f0, inset 0 0 15px rgba(0, 255, 0, 0.5);
+            overflow: hidden;
+            margin-right: 30px;
+            border-radius: 10px;
+        }
+
+        /* Melhoria 4: Quadrado com glow mais forte e feedback visual no clique */
+        .square {
+            width: 50px;
+            height: 50px;
+            background-color: #0f0;
+            box-shadow: 0 0 15px #0f0, 0 0 30px #0f0;
+            position: absolute;
+            cursor: pointer;
+            transition: 
+                transform 0.1s ease-out, 
+                background-color 0.1s;
+            border-radius: 8px; /* Levemente mais arredondado */
+        }
+
+        .square:hover {
+            transform: scale(1.15); /* Aumenta o destaque no hover */
+            box-shadow: 0 0 20px #0f0, 0 0 40px #0f0;
+        }
+
+        /* Animação de pulso ao ser clicado (feedback visual) */
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.5); opacity: 0; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+
+        .pulsing {
+            animation: pulse 0.15s ease-out;
+            background-color: #ff00ff; /* Cor de feedback (Magenta Neon) */
+            box-shadow: 0 0 15px #ff00ff, 0 0 30px #ff00ff;
+        }
+
+        /* Melhoria 5: Placar e Timer com mais destaque */
+        .scoreboard,
+        .timer {
+            position: absolute;
+            top: 15px;
+            font-size: 28px;
+            color: #0f0;
+            text-shadow: 0 0 5px #0f0;
+            transition: transform 0.2s;
+            z-index: 10;
+            padding: 5px 10px;
+            border: 1px dashed #0f0;
+            background-color: rgba(0, 0, 0, 0.4);
+            border-radius: 5px;
+        }
+
+        .scoreboard {
+            right: 15px;
+        }
+
+        .timer {
+            left: 15px;
+        }
+
+        .sidebar {
+            width: 20vw;
+            display: flex;
+            flex-direction: column;
+            color: #0f0;
+            font-size: 16px;
+        }
+
+        /* Melhoria 6: Resultados com estilo de terminal */
+        .results {
+            overflow-y: auto;
+            border: 1px solid #0f0;
+            padding: 10px;
+            height: 80vh;
+            border-radius: 10px;
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+
+        /* Animação do título mais vibrante */
+        .title {
+            font-size: 4em;
+            color: #0f0;
+            text-shadow: 0 0 10px #0f0, 0 0 40px rgba(0, 255, 0, 0.8);
+            animation: glow 1.5s ease-in-out infinite alternate;
+            margin-bottom: 30px;
+        }
+
+        @keyframes glow {
+            0% { text-shadow: 0 0 5px rgba(0, 255, 0, 0.5), 0 0 10px rgba(0, 255, 0, 0.2); }
+            100% { text-shadow: 0 0 15px rgba(0, 255, 0, 1), 0 0 40px rgba(0, 255, 0, 0.6); }
+        }
+
+        /* Instruções com mais legibilidade */
+        .instructions {
+            margin: 20px 0;
+            font-size: 1.1em;
+            color: #66ff66;
+            text-align: center;
+            max-width: 600px;
+            line-height: 1.5;
+        }
+
+        /* Input e Label mais alinhados ao tema */
+        label {
+            color: #ff00ff;
+            margin-top: 15px;
+            font-size: 1.1em;
+        }
+
+        #username {
+            background-color: #000;
+            border: 1px solid #0f0;
+            color: #0f0;
+            padding: 8px;
+            font-size: 16px;
+            margin-top: 5px;
+            width: 250px;
+            text-align: center;
+            border-radius: 3px;
+            box-shadow: 0 0 5px #0f0;
+            font-family: 'Courier New', monospace;
+        }
+
+        /* Estilização do botão com destaque */
+        button {
+            background-color: #0f0;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            padding: 12px 25px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: 
+                background-color 0.3s, 
+                transform 0.2s, 
+                box-shadow 0.3s;
+            margin-top: 20px;
+            font-weight: bold;
+            box-shadow: 0 0 10px #0f0;
+        }
+
+        button:hover {
+            background-color: #ff00ff; /* Hover com a segunda cor neon (Magenta) */
+            color: #000;
+            transform: scale(1.1);
+            box-shadow: 0 0 15px #ff00ff;
+        }
+
+        /* Barra de Progresso com cor de contraste (Magenta) */
+        .progress-bar {
+            width: 90%; /* Levemente menor para não tocar a borda */
+            height: 15px;
+            background-color: #111;
+            border-radius: 8px;
+            overflow: hidden;
+            position: absolute;
+            bottom: 20px;
+            left: 5%; /* Centraliza */
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+            border: 1px solid #ff00ff;
+        }
+
+        .progress {
+            height: 100%;
+            background-color: #ff00ff; /* Cor de progresso em Magenta */
+            box-shadow: 0 0 10px #ff00ff;
+            transition: width 1s linear;
+        }
+ 
