@@ -1,4 +1,4 @@
- const API_URL = 'https://winnersapi-g031.onrender.com';
+ const API_URL = 'https://winners-api-delta.vercel.app/api';
         const startScreen = document.getElementById('startScreen');
         const gameScreen = document.getElementById('gameScreen');
         const gameOverScreen = document.getElementById('gameOverScreen');
