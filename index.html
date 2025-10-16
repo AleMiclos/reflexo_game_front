@@ -1,63 +1,59 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <title>Reflexo Neon</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=VT323&display=swap" rel="stylesheet">
-
-    <title>⚡ Jogo de Reflexo Neon ⚡</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-    <div id="startScreen" class="screen">
-        <h1 class="title" data-text="JOGO DE REFLEXO">JOGO DE REFLEXO</h1>
-        <p class="instructions">
-            <strong>Inicie o protocolo:</strong> Teste sua velocidade de reação.
-            Clique no alvo neon assim que ele aparecer para aumentar sua contagem.
-            O tempo é seu inimigo!
-        </p>
-        <label for="username">USUÁRIO:</label>
-        <input type="text" id="username" required>
-        <button id="startButton">INICIAR SIMULAÇÃO</button>
-        <h3 style="margin-top: 30px; color: #ff00ff; text-shadow: 0 0 5px #ff00ff;">» RANKING TOP 10 «</h3>
-        <div class="initial-results results" id="initialResults" style="max-height: 250px; width: 300px;"></div>
-    </div>
+    <div class="main-wrapper">
 
-    <div class="game-container" id="gameScreen" style="display: none;">
-        <div class="container">
-            <div class="scoreboard">SCORE: <span id="score">0</span></div>
-            <div class="timer">TIME: <span id="timer">15</span>s</div>
-            <div class="square" id="square" style="left: -100px; top: -100px;"></div>
-            <div class="progress-bar">
-                <div class="progress" id="progress" style="width: 100%;"></div>
+        <div class="left-column">
+
+            <div id="startScreen" class="screen" style="display: flex;">
+                <h1 data-text="Reflexo Neon">Reflexo Neon</h1>
+                <p class="instructions">Seu objetivo é clicar no quadrado magenta o máximo de vezes que conseguir antes que o tempo acabe.</p>
+                <input type="text" id="username" placeholder="> DIGITE SEU NOME AQUI <">
+                <button id="startButton">INICIAR</button>
             </div>
-        </div>
-        <div class="sidebar">
-            <h3 style="color: #ff00ff; text-shadow: 0 0 5px #ff00ff;">» RESULTADOS ONLINE «</h3>
-            <div class="results" id="results"></div>
-        </div>
-    </div>
 
-    <div id="gameOverScreen" class="screen" style="display: none;">
-        <h1 class="title" data-text="SIMULAÇÃO CONCLUÍDA">SIMULAÇÃO CONCLUÍDA</h1>
-        <p class="final-score">USUÁRIO: <span id="finalUsername"></span></p>
-        <p class="final-score">PONTUAÇÃO FINAL: <span id="finalScore"></span></p>
-        
-        <div class="rating-container">
-            <h3>AVALIAR PROTOCOLO</h3>
-            <div id="ratingStars"></div>
+            <div id="gameScreen" class="screen" style="display: none;">
+                <div class="game-hud">
+                    <div class="scoreboard">PONTOS: <span id="score">0</span></div>
+                    <div class="timer">TEMPO: <span id="timer">15</span></div>
+                </div>
+                <div class="container">
+                    <div id="square"></div>
+                </div>
+                <div class="progress-bar">
+                    <div id="progress" class="progress"></div>
+                </div>
+            </div>
+
+            <div id="gameOverScreen" class="screen" style="display: none;">
+                <h2 class="title" data-text="FIM DE JOGO">FIM DE JOGO</h2>
+                <p>Parabéns, <span id="finalUsername" style="color: #ff00ff;"></span>!</p>
+                <p class="final-score">Sua pontuação final foi: <span id="finalScore">0</span></p>
+                <div class="rating-container">
+                    <h3>AVALIE PARA SALVAR</h3>
+                    <div id="ratingStars">
+                        </div>
+                </div>
+                <button id="restartButton">SALVAR E REINICIAR</button>
+            </div>
+
         </div>
 
-        <button id="restartButton">REINICIAR</button>
+        <div class="right-column">
+             <div id="leaderboardContainer" class="results">
+                </div>
+        </div>
+
     </div>
 
     <script src="script.js"></script>
 </body>
-
 </html>

@@ -1,0 +1,471 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=VT323&display=swap');
+/* --- IMPEDE A SELEÇÃO DE TEXTO (EFEITO DE JOGO) --- */
+
+/* Desabilita a seleção de texto em toda a página */
+body {
+    -webkit-user-select: none; /* Para Safari e Chrome */
+    -moz-user-select: none;    /* Para Firefox */
+    -ms-user-select: none;     /* Para Internet Explorer/Edge */
+    user-select: none;         /* Padrão oficial */
+}
+
+/* REATIVA a seleção APENAS no campo de input do nome */
+#username {
+    -webkit-user-select: auto;
+    -moz-user-select: auto;
+    -ms-user-select: auto;
+    user-select: auto;
+}
+
+
+/* Adicionando um efeito de vinheta e flicker para mais imersão */
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    box-shadow: inset 0 0 150px rgba(0, 0, 0, 0.7);
+    /* Vinheta */
+    pointer-events: none;
+    z-index: 10;
+}
+
+.main-wrapper {
+    /* Adicionando uma animação sutil de flicker no brilho */
+    animation: container-flicker 4s linear infinite;
+}
+
+@keyframes container-flicker {
+
+    0%,
+    100% {
+        box-shadow: 0 0 25px #0f0, inset 0 0 15px rgba(0, 255, 0, 0.4);
+    }
+
+    50% {
+        box-shadow: 0 0 30px #0f0, inset 0 0 20px rgba(0, 255, 0, 0.5);
+    }
+}
+
+/* --- REFINAMENTO NA TABELA DE PONTOS --- */
+.results {
+    font-family: 'VT323', monospace;
+    /* Garantindo a fonte correta */
+}
+
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+    /* Bordas mais limpas */
+    font-size: 1.2em;
+}
+
+.results-table th {
+    font-family: 'Orbitron', sans-serif;
+    /* Fonte de título para o cabeçalho */
+    color: #ff00ff;
+    text-align: left;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #ff00ff;
+    text-shadow: 0 0 5px #ff00ff;
+}
+
+.results-table td {
+    padding: 10px 5px;
+    border-bottom: 1px dashed rgba(0, 255, 0, 0.3);
+}
+
+.results-table tr:last-child td {
+    border-bottom: none;
+    /* Remove a borda do último item */
+}
+
+.results-table tr:hover td {
+    background-color: rgba(0, 255, 0, 0.1);
+    color: #fff;
+    text-shadow: 0 0 5px #fff;
+    cursor: default;
+}
+
+/* Destaque para a pontuação do jogador atual */
+.player-highlight td {
+    background-color: rgba(0, 255, 255, 0.2) !important;
+    color: #00ffff !important;
+    text-shadow: 0 0 8px #00ffff;
+}
+
+td.rank {
+    color: #ff00ff;
+    font-weight: bold;
+    font-size: 1.1em;
+    padding-right: 15px;
+    /* Mais espaço para o ranking */
+}
+
+/* --- REFINAMENTO NAS FONTES --- */
+h1,
+h2 {
+    font-size: 4.5em;
+    /* Um pouco maior para mais impacto */
+}
+
+h2 {
+    font-size: 3.5em;
+}
+
+.game-hud .scoreboard,
+.game-hud .timer {
+    font-family: 'Orbitron', sans-serif;
+    /* Usando a fonte de destaque no HUD */
+    font-size: 1.5em;
+    letter-spacing: 2px;
+}
+
+/* Melhorando a aparência do input e do placeholder */
+#username {
+    font-size: 1.4em;
+    padding: 12px;
+}
+
+#username::placeholder {
+    color: rgba(0, 255, 0, 0.4);
+    font-family: 'VT323', monospace;
+    transition: color 0.3s;
+}
+
+#username:focus::placeholder {
+    color: rgba(0, 255, 0, 0.2);
+}
+
+button:active {
+    transform: scale(1.05);
+    /* Efeito de clique mais tátil */
+    box-shadow: 0 0 25px #ff00ff;
+}
+
+
+/* ----- COLE O CÓDIGO ACIMA NO TOPO DO SEU ARQUIVO CSS EXISTENTE ----- */
+/* ----- O CÓDIGO ABAIXO É O SEU CÓDIGO ANTERIOR, PARA CONTEXTO ----- */
+/* ----- NÃO PRECISA COPIAR O CÓDIGO ABAIXO SE JÁ O TIVER ----- */
+
+body {
+    background-color: #050505;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    color: #0f0;
+    font-family: 'VT323', monospace;
+    font-size: 20px;
+    margin: 0;
+    box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+}
+
+body::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) 1px, transparent 1px, transparent 3px);
+    animation: scanlines 10s linear infinite;
+    pointer-events: none;
+    z-index: -1;
+}
+
+@keyframes scanlines {
+    0% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: 0 100px;
+    }
+}
+
+.main-wrapper {
+    display: flex;
+    width: 95vw;
+    height: 90vh;
+    max-width: 1600px;
+    border: 2px solid #0f0;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.left-column {
+    flex: 3;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border-right: 2px solid #0f0;
+}
+
+.right-column {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+}
+
+#gameScreen {
+    justify-content: space-between;
+}
+
+.container {
+    position: relative;
+    width: 100%;
+    height: 80%;
+    overflow: hidden;
+}
+
+#square {
+    width: 60px;
+    height: 60px;
+    background-color: #ff00ff;
+    box-shadow: 0 0 15px #ff00ff, 0 0 30px #ff00ff;
+    position: absolute;
+    cursor: pointer;
+    transition: transform 0.1s ease-out;
+    border-radius: 8px;
+}
+
+#square.pulsing {
+    animation: pulse 0.15s ease-out;
+    background-color: #0f0;
+    box-shadow: 0 0 15px #0f0, 0 0 30px #0f0;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.3);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.game-hud {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.5em;
+    text-shadow: 0 0 5px #0f0;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 15px;
+    background-color: #111;
+    border: 1px solid #0f0;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.progress {
+    height: 100%;
+    background-color: #ff00ff;
+    box-shadow: 0 0 10px #ff00ff;
+    transition: width 1s linear;
+}
+
+.results {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    color: #0f0;
+}
+
+.results::-webkit-scrollbar {
+    width: 8px;
+}
+
+.results::-webkit-scrollbar-track {
+    background: #111;
+}
+
+.results::-webkit-scrollbar-thumb {
+    background: #0f0;
+    border-radius: 4px;
+}
+
+.results::-webkit-scrollbar-thumb:hover {
+    background: #ff00ff;
+}
+
+.title,
+h1,
+h2 {
+    font-family: 'Orbitron', sans-serif;
+    color: #0f0;
+    text-shadow: 0 0 10px #0f0, 0 0 40px rgba(0, 255, 0, 0.8);
+    margin-bottom: 20px;
+    position: relative;
+    animation: glow 1.5s ease-in-out infinite alternate;
+}
+
+h2 {
+    color: #ff00ff;
+    text-shadow: 0 0 10px #ff00ff;
+}
+
+.title::before,
+.title::after,
+h1::before,
+h1::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #050505;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+}
+
+h1::before,
+.title::before {
+    left: 2px;
+    text-shadow: -2px 0 #ff00ff;
+    animation: glitch-anim-1 2s infinite linear alternate-reverse;
+}
+
+h1::after,
+.title::after {
+    left: -2px;
+    text-shadow: -2px 0 #00ffff, 2px 2px #ff00ff;
+    animation: glitch-anim-2 3s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-anim-1 {
+    0% {
+        clip: rect(42px, 9999px, 44px, 0);
+    }
+
+    100% {
+        clip: rect(92px, 9999px, 98px, 0);
+    }
+}
+
+@keyframes glitch-anim-2 {
+    0% {
+        clip: rect(65px, 9999px, 119px, 0);
+    }
+
+    100% {
+        clip: rect(78px, 9999px, 62px, 0);
+    }
+}
+
+@keyframes glow {
+    0% {
+        text-shadow: 0 0 5px rgba(0, 255, 0, 0.5), 0 0 10px rgba(0, 255, 0, 0.2);
+    }
+
+    100% {
+        text-shadow: 0 0 15px rgba(0, 255, 0, 1), 0 0 40px rgba(0, 255, 0, 0.6);
+    }
+}
+
+.instructions {
+    margin: 20px 0;
+    font-size: 1.3em;
+    color: #66ff66;
+    text-align: center;
+    max-width: 600px;
+    line-height: 1.5;
+}
+
+#username {
+    background-color: #000;
+    border: 1px solid #0f0;
+    color: #0f0;
+    padding: 10px;
+    margin-top: 5px;
+    width: 350px;
+    text-align: center;
+    border-radius: 3px;
+    box-shadow: 0 0 5px #0f0;
+    font-family: 'VT323', monospace;
+}
+
+button {
+    background-color: #0f0;
+    color: #000;
+    border: none;
+    border-radius: 5px;
+    padding: 12px 25px;
+    font-size: 1.4em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+    font-family: 'Orbitron', sans-serif;
+    box-shadow: 0 0 10px #0f0;
+}
+
+button:hover {
+    background-color: #ff00ff;
+    transform: scale(1.1);
+    box-shadow: 0 0 15px #ff00ff;
+}
+
+.final-score {
+    font-size: 2em;
+    color: #66ff66;
+    margin: 10px 0;
+    text-shadow: 0 0 5px #66ff66;
+}
+
+.rating-container {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.rating-container h3 {
+    color: #ff00ff;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.5em;
+    margin-bottom: 15px;
+}
+
+#ratingStars {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.star {
+    font-size: 40px;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.star:hover,
+.star.hover,
+.star.selected {
+    color: #0f0;
+    transform: scale(1.2);
+    text-shadow: 0 0 10px #0f0;
+}
